@@ -23,16 +23,9 @@ final class IOMonitor {
             guard let currentInput = self?.getCurrentInputSource() else {
                 return
             }
-            debugPrint("Current input method: \(currentInput)")
-            
             let capsLockOn = event.modifierFlags.contains(.capsLock)
-            if capsLockOn {
-                //                serialPort.send("1") // 傳送 '1' 到 Arduino 表示 Caps Lock 已開啟
-                debugPrint("1")
-            } else {
-                //                serialPort.send("0") // 傳送 '0' 到 Arduino 表示 Caps Lock 已關閉
-                debugPrint("0")
-            }
+            let capsLockString = capsLockOn ? "CapsLock" : "Lowercase"
+            self?.showPopup(title: "\(currentInput)\n\(capsLockString)")
         }
     }
     
@@ -40,21 +33,55 @@ final class IOMonitor {
         guard let currentInput = getCurrentInputSource() else {
             return
         }
-        print("Current input method: \(currentInput)")
+        showPopup(title: currentInput)
     }
     
     func getCurrentInputSource() -> String? {
         let inputSource = TISCopyCurrentKeyboardInputSource().takeRetainedValue()
         if let inputSourceID = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceID) {
             let currentInput = Unmanaged<CFString>.fromOpaque(inputSourceID).takeUnretainedValue() as String
-            return currentInput
+            return currentInput.components(separatedBy: ".").last
         }
         return nil
     }
-
+    
+    func showPopup(title: String) {
+        if popupWindow != nil {
+            popupWindow?.close()
+            self.popupWindow = nil
+        }
+        // ask: 我有兩個螢幕，我要如何讓 window 出現在 keywindow 的正中間？
+        let window = NSWindow(contentRect: NSMakeRect(200, 200, 300, 200), styleMask: [.titled, .closable], backing: .buffered, defer: false)
+        guard let contentView = window.contentView else {
+            return
+        }
+        window.level = .floating // 設定視窗總是出現在最前面
+        window.isReleasedWhenClosed = false
+        
+        let label = NSTextField(labelWithString: title)
+        label.backgroundColor = .clear
+        
+        window.contentView?.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
+        label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        
+        // 顯示視窗
+        self.popupWindow = window
+        window.makeKeyAndOrderFront(nil)
+        
+        // 設定2秒後自動消失
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            window.close()
+            self.popupWindow = nil
+        }
+    }
 
     deinit {
         DistributedNotificationCenter.default.removeObserver(self)
     }
     
+    private var popupWindow: NSWindow?
 }
