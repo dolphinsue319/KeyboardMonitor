@@ -14,4 +14,8 @@ struct KeyboardMonitorApp: App {
             ContentView()
         }
     }
+    
+    init() {
+        IOMonitor.shared.start()
+    }
 }
