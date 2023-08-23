@@ -70,22 +70,26 @@ final class IOMonitor {
         window.level = .floating // 設定視窗總是出現在最前面
         window.isReleasedWhenClosed = false
         
-        let label = NSTextField(labelWithString: title)
-        label.backgroundColor = .init(white: 0, alpha: 0.3)
-        label.layer?.cornerRadius = 8
+        let label = NSTextField()
+        label.stringValue = title
+        label.wantsLayer = true
+        label.layer?.cornerRadius = 10
+        label.layer?.masksToBounds = true
+        label.isEditable = false
+        label.isSelectable = false
+        label.isBezeled = false
+        label.isBordered = false
+        label.drawsBackground = true
+        label.backgroundColor = NSColor(white: 0, alpha: 0.3)
         label.font = .boldSystemFont(ofSize: 26)
         label.textColor = textColor
         
-        window.contentView?.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
-        label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        contentView.addSubview(label)
         
         // 顯示視窗
         self.popupWindow = window
         window.makeKeyAndOrderFront(nil)
+        label.sizeToFit()
         
         // 設定2秒後自動消失
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
