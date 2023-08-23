@@ -20,13 +20,12 @@ final class IOMonitor {
                 
         NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] (event) in
 
-            guard let currentInput = self?.getCurrentInputSource() else {
+            guard let self, let currentInput = self.getCurrentInputSource() else {
                 return
             }
-            let capsLockOn = event.modifierFlags.contains(.capsLock)
-            let capsLockString = capsLockOn ? "CapsLock" : ""
-            let color: NSColor = capsLockOn ? .red : .blue
-            self?.showPopup(title: "\(currentInput)\n\(capsLockString)", textColor: color)
+            self.isCapsLockOn = event.modifierFlags.contains(.capsLock)
+            let message = self.isCapsLockOn ? "\(currentInput)\nCapsLock" : currentInput
+            self.showPopup(title: message)
         }
     }
     
@@ -34,8 +33,7 @@ final class IOMonitor {
         guard let currentInput = getCurrentInputSource() else {
             return
         }
-        let color: NSColor = currentInput.lowercased().contains("abc") ? .blue : .red
-        showPopup(title: currentInput, textColor: color)
+        showPopup(title: currentInput)
     }
     
     func getCurrentInputSource() -> String? {
@@ -47,7 +45,7 @@ final class IOMonitor {
         return nil
     }
     
-    func showPopup(title: String, textColor: NSColor) {
+    func showPopup(title: String) {
         if popupWindow != nil {
             popupWindow?.close()
             self.popupWindow = nil
@@ -90,9 +88,12 @@ final class IOMonitor {
         window.makeKeyAndOrderFront(nil)
         
         // 設定2秒後自動消失
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            window.close()
-            self.popupWindow = nil
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+            guard let popupWindow = self?.popupWindow else {
+                return
+            }
+            popupWindow.close()
+            self?.popupWindow = nil
         }
     }
 
@@ -101,4 +102,8 @@ final class IOMonitor {
     }
     
     private var popupWindow: NSWindow?
+    private var isCapsLockOn: Bool = false
+    var textColor: NSColor {
+        return isCapsLockOn ? .red : .blue
+    }
 }
