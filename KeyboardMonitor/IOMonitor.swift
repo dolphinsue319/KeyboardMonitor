@@ -24,8 +24,9 @@ final class IOMonitor {
                 return
             }
             let capsLockOn = event.modifierFlags.contains(.capsLock)
-            let capsLockString = capsLockOn ? "CapsLock" : "Lowercase"
-            self?.showPopup(title: "\(currentInput)\n\(capsLockString)")
+            let capsLockString = capsLockOn ? "CapsLock" : ""
+            let color: NSColor = capsLockOn ? .red : .blue
+            self?.showPopup(title: "\(currentInput)\n\(capsLockString)", textColor: color)
         }
     }
     
@@ -33,7 +34,8 @@ final class IOMonitor {
         guard let currentInput = getCurrentInputSource() else {
             return
         }
-        showPopup(title: currentInput)
+        let color: NSColor = currentInput.lowercased().contains("abc") ? .blue : .red
+        showPopup(title: currentInput, textColor: color)
     }
     
     func getCurrentInputSource() -> String? {
@@ -45,13 +47,25 @@ final class IOMonitor {
         return nil
     }
     
-    func showPopup(title: String) {
+    func showPopup(title: String, textColor: NSColor) {
         if popupWindow != nil {
             popupWindow?.close()
             self.popupWindow = nil
         }
-        // ask: 我有兩個螢幕，我要如何讓 window 出現在 keywindow 的正中間？
-        let window = NSWindow(contentRect: NSMakeRect(200, 200, 300, 200), styleMask: [.titled, .closable], backing: .buffered, defer: false)
+        
+        let mouseLocation = NSEvent.mouseLocation
+        guard let screen = NSScreen.screens.first(where: { $0.frame.contains(mouseLocation) }) else {
+            return
+        }
+        
+        // 'screen' 是用戶目前正在使用的螢幕
+        let screenFrame = screen.frame
+        let x = screenFrame.origin.x + (screenFrame.size.width - 300) / 4
+        let y = screenFrame.origin.y + (screenFrame.size.height - 200) / 4 * 3
+        
+        let window = NSWindow(contentRect: NSMakeRect(x, y, 300, 200), styleMask: [], backing: .buffered, defer: false)
+        window.backgroundColor = .clear
+        
         guard let contentView = window.contentView else {
             return
         }
@@ -59,7 +73,10 @@ final class IOMonitor {
         window.isReleasedWhenClosed = false
         
         let label = NSTextField(labelWithString: title)
-        label.backgroundColor = .clear
+        label.backgroundColor = .init(white: 0, alpha: 0.3)
+        label.layer?.cornerRadius = 8
+        label.font = .boldSystemFont(ofSize: 26)
+        label.textColor = textColor
         
         window.contentView?.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
