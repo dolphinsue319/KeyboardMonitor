@@ -16,6 +16,8 @@
 		82BA62382A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA62372A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift */; };
 		82BA62452A94BAA5009C860C /* IOMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA62442A94BAA5009C860C /* IOMonitor.swift */; };
 		82E8D3562A9B084900645E15 /* KDAlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E8D3552A9B084900645E15 /* KDAlertWindow.swift */; };
+		82E8D3582A9B179C00645E15 /* KDUSBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E8D3572A9B179C00645E15 /* KDUSBManager.swift */; };
+		82E8D35B2A9B1BC900645E15 /* ORSSerial in Frameworks */ = {isa = PBXBuildFile; productRef = 82E8D35A2A9B1BC900645E15 /* ORSSerial */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,7 @@
 		82BA62372A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardMonitorUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		82BA62442A94BAA5009C860C /* IOMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOMonitor.swift; sourceTree = "<group>"; };
 		82E8D3552A9B084900645E15 /* KDAlertWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDAlertWindow.swift; sourceTree = "<group>"; };
+		82E8D3572A9B179C00645E15 /* KDUSBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDUSBManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82E8D35B2A9B1BC900645E15 /* ORSSerial in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +83,7 @@
 		82BA620D2A94BA83009C860C = {
 			isa = PBXGroup;
 			children = (
+				82E8D3572A9B179C00645E15 /* KDUSBManager.swift */,
 				82BA62182A94BA83009C860C /* KeyboardMonitor */,
 				82BA622A2A94BA85009C860C /* KeyboardMonitorTests */,
 				82BA62342A94BA85009C860C /* KeyboardMonitorUITests */,
@@ -151,6 +156,9 @@
 			dependencies = (
 			);
 			name = KeyboardMonitor;
+			packageProductDependencies = (
+				82E8D35A2A9B1BC900645E15 /* ORSSerial */,
+			);
 			productName = KeyboardMonitor;
 			productReference = 82BA62162A94BA83009C860C /* KeyboardMonitor.app */;
 			productType = "com.apple.product-type.application";
@@ -223,6 +231,9 @@
 				Base,
 			);
 			mainGroup = 82BA620D2A94BA83009C860C;
+			packageReferences = (
+				82E8D3592A9B1BC900645E15 /* XCRemoteSwiftPackageReference "ORSSerialPort" */,
+			);
 			productRefGroup = 82BA62172A94BA83009C860C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -267,6 +278,7 @@
 			files = (
 				82BA62452A94BAA5009C860C /* IOMonitor.swift in Sources */,
 				82E8D3562A9B084900645E15 /* KDAlertWindow.swift in Sources */,
+				82E8D3582A9B179C00645E15 /* KDUSBManager.swift in Sources */,
 				82BA621C2A94BA83009C860C /* ContentView.swift in Sources */,
 				82BA621A2A94BA83009C860C /* KeyboardMonitorApp.swift in Sources */,
 			);
@@ -591,6 +603,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		82E8D3592A9B1BC900645E15 /* XCRemoteSwiftPackageReference "ORSSerialPort" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/armadsen/ORSSerialPort.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		82E8D35A2A9B1BC900645E15 /* ORSSerial */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 82E8D3592A9B1BC900645E15 /* XCRemoteSwiftPackageReference "ORSSerialPort" */;
+			productName = ORSSerial;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 82BA620E2A94BA83009C860C /* Project object */;
 }

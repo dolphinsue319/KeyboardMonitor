@@ -27,13 +27,24 @@ final class IOMonitor {
             let message = self.isCapsLockOn ? "\(currentInput)\nCapsLock" : currentInput
             KDAlertWindow.shared.showPopup(title: message, textColor: self.textColor)
         }
+
+        KDUSBManager.shared.connect()
     }
     
     @objc func inputMethodChanged(_ notification: Notification) {
         guard let currentInput = getCurrentInputSource() else {
             return
         }
-        KDAlertWindow.shared.showPopup(title: currentInput, textColor: textColor)
+        guard let _ = KDUSBManager.shared.serialPort else {
+            KDAlertWindow.shared.showPopup(title: currentInput, textColor: textColor)
+            return
+        }
+
+        var command: KDUSBManager.Command = .red
+        if currentInput.contains("abc") {
+            command = .blue
+        }
+        KDUSBManager.shared.sendCommand(command)
     }
     
     func getCurrentInputSource() -> String? {
@@ -46,6 +57,7 @@ final class IOMonitor {
     }
 
     deinit {
+        KDUSBManager.shared.disconnect()
         DistributedNotificationCenter.default.removeObserver(self)
     }
     
