@@ -15,6 +15,7 @@
 		82BA62362A94BA85009C860C /* KeyboardMonitorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA62352A94BA85009C860C /* KeyboardMonitorUITests.swift */; };
 		82BA62382A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA62372A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift */; };
 		82BA62452A94BAA5009C860C /* IOMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA62442A94BAA5009C860C /* IOMonitor.swift */; };
+		82E8D3562A9B084900645E15 /* KDAlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E8D3552A9B084900645E15 /* KDAlertWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		82BA62352A94BA85009C860C /* KeyboardMonitorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardMonitorUITests.swift; sourceTree = "<group>"; };
 		82BA62372A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardMonitorUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		82BA62442A94BAA5009C860C /* IOMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOMonitor.swift; sourceTree = "<group>"; };
+		82E8D3552A9B084900645E15 /* KDAlertWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDAlertWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				82BA62192A94BA83009C860C /* KeyboardMonitorApp.swift */,
 				82BA621B2A94BA83009C860C /* ContentView.swift */,
 				82BA62442A94BAA5009C860C /* IOMonitor.swift */,
+				82E8D3552A9B084900645E15 /* KDAlertWindow.swift */,
 				82BA621D2A94BA85009C860C /* Assets.xcassets */,
 				82BA62222A94BA85009C860C /* KeyboardMonitor.entitlements */,
 				82BA621F2A94BA85009C860C /* Preview Content */,
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82BA62452A94BAA5009C860C /* IOMonitor.swift in Sources */,
+				82E8D3562A9B084900645E15 /* KDAlertWindow.swift in Sources */,
 				82BA621C2A94BA83009C860C /* ContentView.swift in Sources */,
 				82BA621A2A94BA83009C860C /* KeyboardMonitorApp.swift in Sources */,
 			);
