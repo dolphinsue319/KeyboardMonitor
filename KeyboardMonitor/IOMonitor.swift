@@ -32,7 +32,6 @@ final class IOMonitor {
             }
             let command: KDUSBManager.Command = self.isCapsLockOn ? .blinkOn : .blinkOff
             KDUSBManager.shared.sendCommand(command)
-            inputMethodChanged()
         }
 
         KDUSBManager.shared.connect()
@@ -48,29 +47,12 @@ final class IOMonitor {
         }
 
         var colorCommand: KDUSBManager.Command = .green
-        var blinkCommand: KDUSBManager.Command = isCapsLockOn ? .blinkOn : .blinkOff
         
-        if currentInput.lowercased().contains("abc") {
-            colorCommand = .green
-            if isCapsLockOn {
-                blinkCommand = .blinkOn
-            }
-            else {
-                blinkCommand = .blinkOff
-            }
-        } 
-        else {
-            blinkCommand = .blinkOff
-            if isCapsLockOn {
-                colorCommand = .green
-            }
-            else {
-                colorCommand = .blue
-            }
+        if !currentInput.lowercased().contains("abc") {
+            colorCommand = .blue
         }
         
         KDUSBManager.shared.sendCommand(colorCommand)
-        KDUSBManager.shared.sendCommand(blinkCommand)
     }
     
     func getCurrentInputSource() -> String? {
