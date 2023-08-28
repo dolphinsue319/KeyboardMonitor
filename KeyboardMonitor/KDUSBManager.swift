@@ -122,7 +122,8 @@ extension KDUSBManager: ORSSerialPortDelegate {
     }
     
     func serialPortWasClosed(_ serialPort: ORSSerialPort) {
-        debugPrint("\(#function)")
+        print("\(#function)")
+        self.serialPort?.open()
     }
     
     func serialPortWasOpened(_ serialPort: ORSSerialPort) {
