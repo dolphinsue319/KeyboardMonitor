@@ -16,7 +16,7 @@ final class IOMonitor {
     static let shared = IOMonitor()
     
     func start() {
-        DistributedNotificationCenter.default().addObserver(self, selector: #selector(inputMethodChanged(_:)), name: NSNotification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String), object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(inputMethodChanged), name: NSNotification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String), object: nil)
                 
         NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] (event) in
 
@@ -32,12 +32,13 @@ final class IOMonitor {
             }
             let command: KDUSBManager.Command = self.isCapsLockOn ? .blinkOn : .blinkOff
             KDUSBManager.shared.sendCommand(command)
+            inputMethodChanged()
         }
 
         KDUSBManager.shared.connect()
     }
     
-    @objc func inputMethodChanged(_ notification: Notification) {
+    @objc func inputMethodChanged() {
         guard let currentInput = getCurrentInputSource() else {
             return
         }
@@ -46,11 +47,30 @@ final class IOMonitor {
             return
         }
 
-        var command: KDUSBManager.Command = .green
+        var colorCommand: KDUSBManager.Command = .green
+        var blinkCommand: KDUSBManager.Command = isCapsLockOn ? .blinkOn : .blinkOff
+        
         if currentInput.lowercased().contains("abc") {
-            command = .blue
+            colorCommand = .green
+            if isCapsLockOn {
+                blinkCommand = .blinkOn
+            }
+            else {
+                blinkCommand = .blinkOff
+            }
+        } 
+        else {
+            blinkCommand = .blinkOff
+            if isCapsLockOn {
+                colorCommand = .green
+            }
+            else {
+                colorCommand = .blue
+            }
         }
-        KDUSBManager.shared.sendCommand(command)
+        
+        KDUSBManager.shared.sendCommand(colorCommand)
+        KDUSBManager.shared.sendCommand(blinkCommand)
     }
     
     func getCurrentInputSource() -> String? {
