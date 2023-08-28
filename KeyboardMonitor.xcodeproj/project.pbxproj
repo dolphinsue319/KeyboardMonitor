@@ -83,7 +83,6 @@
 		82BA620D2A94BA83009C860C = {
 			isa = PBXGroup;
 			children = (
-				82E8D3572A9B179C00645E15 /* KDUSBManager.swift */,
 				82BA62182A94BA83009C860C /* KeyboardMonitor */,
 				82BA622A2A94BA85009C860C /* KeyboardMonitorTests */,
 				82BA62342A94BA85009C860C /* KeyboardMonitorUITests */,
@@ -108,6 +107,7 @@
 				82BA621B2A94BA83009C860C /* ContentView.swift */,
 				82BA62442A94BAA5009C860C /* IOMonitor.swift */,
 				82E8D3552A9B084900645E15 /* KDAlertWindow.swift */,
+				82E8D3572A9B179C00645E15 /* KDUSBManager.swift */,
 				82BA621D2A94BA85009C860C /* Assets.xcassets */,
 				82BA62222A94BA85009C860C /* KeyboardMonitor.entitlements */,
 				82BA621F2A94BA85009C860C /* Preview Content */,
