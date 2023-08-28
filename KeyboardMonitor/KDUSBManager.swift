@@ -18,19 +18,21 @@ class KDUSBManager: NSObject {
     }
 
     enum Command: String {
-        case red = "c"
-        case blue = "e"
-        case blink = "l"
+        case blue = "b"
+        case green = "g"
+        case blinkOn = "L"
+        case blinkOff = "l"
     }
 
     static let shared = KDUSBManager()
 
-    private(set) var connectionStatus: ConnectionStatus = .disconnect
-    private(set) var serialPort: ORSSerialPort?
+    var connectionStatus: ConnectionStatus {
+        return (serialPort?.isOpen ?? false) ? .connected : .disconnect
+    }
+    private var serialPort: ORSSerialPort?
 
     func connect() {
         guard let portPath = findSerialNodeMCU32S() else {
-            connectionStatus = .disconnect
             serialPort = nil
             return
         }
@@ -38,7 +40,6 @@ class KDUSBManager: NSObject {
         port?.baudRate = 9600
         port?.delegate = self
         port?.open()
-        connectionStatus = .connected
         serialPort = port
     }
 

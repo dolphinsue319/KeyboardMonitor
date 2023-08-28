@@ -24,8 +24,14 @@ final class IOMonitor {
                 return
             }
             self.isCapsLockOn = event.modifierFlags.contains(.capsLock)
+            
             let message = self.isCapsLockOn ? "\(currentInput)\nCapsLock" : currentInput
-            KDAlertWindow.shared.showPopup(title: message, textColor: self.textColor)
+            if KDUSBManager.shared.connectionStatus == .disconnect {
+                KDAlertWindow.shared.showPopup(title: message, textColor: self.textColor)
+                return
+            }
+            let command: KDUSBManager.Command = self.isCapsLockOn ? .blinkOn : .blinkOff
+            KDUSBManager.shared.sendCommand(command)
         }
 
         KDUSBManager.shared.connect()
@@ -35,13 +41,13 @@ final class IOMonitor {
         guard let currentInput = getCurrentInputSource() else {
             return
         }
-        guard let _ = KDUSBManager.shared.serialPort else {
+        if KDUSBManager.shared.connectionStatus == .disconnect {
             KDAlertWindow.shared.showPopup(title: currentInput, textColor: textColor)
             return
         }
 
-        var command: KDUSBManager.Command = .red
-        if currentInput.contains("abc") {
+        var command: KDUSBManager.Command = .green
+        if currentInput.lowercased().contains("abc") {
             command = .blue
         }
         KDUSBManager.shared.sendCommand(command)
