@@ -58,57 +58,60 @@ class KDUSBManager: NSObject {
         serialPort?.send(d)
     }
 
-    private func findSerialNodeMCU32S() -> String? {
-        return "/dev/cu.usbserial-110"
-    }
-    
 //    private func findSerialNodeMCU32S() -> String? {
-//        var port: String?
-//        let matchingDict = IOServiceMatching(kIOSerialBSDServiceValue) as NSMutableDictionary
-//        matchingDict[kIOSerialBSDTypeKey] = kIOSerialBSDAllTypes
-//
-//        var iterator: io_iterator_t = 0
-//        let kernResult = IOServiceGetMatchingServices(kIOMainPortDefault, matchingDict, &iterator)
-//
-//        if kernResult == KERN_SUCCESS {
-//            var next: io_object_t
-//
-//            repeat {
-//                next = IOIteratorNext(iterator)
-//                if next != 0 {
-//                    let serialService: io_object_t = next
-//                    let key: CFString = "IOCalloutDevice" as CFString
-//
-//                    if let pathAsCFString = IORegistryEntryCreateCFProperty(serialService, key, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String,
-//                       let path = pathAsCFString as String? {
-//
-//                        let deviceInfo = IORegistryEntryCreateCFProperty(serialService, "idProduct" as CFString, kCFAllocatorDefault, 0)
-//                        let vendorInfo = IORegistryEntryCreateCFProperty(serialService, "idVendor" as CFString, kCFAllocatorDefault, 0)
-//
-//                        if let deviceData = deviceInfo?.takeRetainedValue() as? Data,
-//                           let vendorData = vendorInfo?.takeRetainedValue() as? Data {
-//
-//                            var deviceID: Int = 0
-//                            var vendorID: Int = 0
-//
-//                            (deviceData as NSData).getBytes(&deviceID, length: MemoryLayout<UInt32>.size)
-//                            (vendorData as NSData).getBytes(&vendorID, length: MemoryLayout<UInt32>.size)
-//
-//                            if vendorID == vendorID && deviceID == productID {
-//                                port = path
-//                            }
-//                        }
-//                    }
-//
-//                    IOObjectRelease(serialService)
-//                }
-//            } while next != 0
-//
-//            IOObjectRelease(iterator)
-//        }
-//
-//        return port
+//        return "/dev/cu.usbserial-110"
 //    }
+    
+    private func findSerialNodeMCU32S() -> String? {
+        var port: String?
+        let matchingDict = IOServiceMatching(kIOSerialBSDServiceValue) as NSMutableDictionary
+        matchingDict[kIOSerialBSDTypeKey] = kIOSerialBSDAllTypes
+
+        var iterator: io_iterator_t = 0
+        let kernResult = IOServiceGetMatchingServices(kIOMainPortDefault, matchingDict, &iterator)
+
+        if kernResult != KERN_SUCCESS {
+            return port
+        }
+        var next: io_object_t
+
+        repeat {
+            next = IOIteratorNext(iterator)
+            if next == 0 {
+                continue
+            }
+            
+            let serialService: io_object_t = next
+            let key: CFString = "IOCalloutDevice" as CFString
+            
+            if let pathAsCFString = IORegistryEntryCreateCFProperty(serialService, key, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String,
+               let path = pathAsCFString as String? {
+                
+                let deviceInfo = IORegistryEntryCreateCFProperty(serialService, "idProduct" as CFString, kCFAllocatorDefault, 0)
+                let vendorInfo = IORegistryEntryCreateCFProperty(serialService, "idVendor" as CFString, kCFAllocatorDefault, 0)
+                
+                if let deviceData = deviceInfo?.takeRetainedValue() as? Data,
+                   let vendorData = vendorInfo?.takeRetainedValue() as? Data {
+                    
+                    var deviceID: Int = 0
+                    var vendorID: Int = 0
+                    
+                    (deviceData as NSData).getBytes(&deviceID, length: MemoryLayout<UInt32>.size)
+                    (vendorData as NSData).getBytes(&vendorID, length: MemoryLayout<UInt32>.size)
+                    
+                    if vendorID == vendorID && deviceID == productID {
+                        port = path
+                    }
+                }
+            }
+            
+            IOObjectRelease(serialService)
+        } while next != 0
+
+        IOObjectRelease(iterator)
+
+        return port
+    }
 
     private let vendorID = 0x1A86
     private let productID = 0x7523
