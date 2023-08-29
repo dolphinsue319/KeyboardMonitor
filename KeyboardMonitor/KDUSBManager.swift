@@ -84,25 +84,29 @@ class KDUSBManager: NSObject {
             let serialService: io_object_t = next
             let key: CFString = "IOCalloutDevice" as CFString
             
-            if let pathAsCFString = IORegistryEntryCreateCFProperty(serialService, key, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String,
-               let path = pathAsCFString as String? {
-                
-                let deviceInfo = IORegistryEntryCreateCFProperty(serialService, "idProduct" as CFString, kCFAllocatorDefault, 0)
-                let vendorInfo = IORegistryEntryCreateCFProperty(serialService, "idVendor" as CFString, kCFAllocatorDefault, 0)
-                
-                if let deviceData = deviceInfo?.takeRetainedValue() as? Data,
-                   let vendorData = vendorInfo?.takeRetainedValue() as? Data {
-                    
-                    var deviceID: Int = 0
-                    var vendorID: Int = 0
-                    
-                    (deviceData as NSData).getBytes(&deviceID, length: MemoryLayout<UInt32>.size)
-                    (vendorData as NSData).getBytes(&vendorID, length: MemoryLayout<UInt32>.size)
-                    
-                    if vendorID == vendorID && deviceID == productID {
-                        port = path
-                    }
-                }
+            guard let pathAsCFString = IORegistryEntryCreateCFProperty(serialService, key, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String,
+               let path = pathAsCFString as String? else {
+                IOObjectRelease(serialService)
+                continue
+            }
+            
+            let deviceInfo = IORegistryEntryCreateCFProperty(serialService, "idProduct" as CFString, kCFAllocatorDefault, 0)
+            let vendorInfo = IORegistryEntryCreateCFProperty(serialService, "idVendor" as CFString, kCFAllocatorDefault, 0)
+            
+            guard let deviceData = deviceInfo?.takeRetainedValue() as? Data,
+               let vendorData = vendorInfo?.takeRetainedValue() as? Data else {
+                IOObjectRelease(serialService)
+                continue
+            }
+            
+            var deviceID: Int = 0
+            var vendorID: Int = 0
+            
+            (deviceData as NSData).getBytes(&deviceID, length: MemoryLayout<UInt32>.size)
+            (vendorData as NSData).getBytes(&vendorID, length: MemoryLayout<UInt32>.size)
+            
+            if vendorID == vendorID && deviceID == productID {
+                port = path
             }
             
             IOObjectRelease(serialService)
