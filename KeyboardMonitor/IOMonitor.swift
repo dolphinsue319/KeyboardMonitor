@@ -16,8 +16,10 @@ final class IOMonitor {
     static let shared = IOMonitor()
     
     func start() {
+        // 監聽輸入法的變化
         DistributedNotificationCenter.default().addObserver(self, selector: #selector(inputMethodChanged), name: NSNotification.Name(kTISNotifySelectedKeyboardInputSourceChanged as String), object: nil)
-                
+        
+        // 監聽 CapsLock 的變化
         NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] (event) in
 
             guard let self, let currentInput = self.getCurrentInputSource() else {
@@ -34,6 +36,7 @@ final class IOMonitor {
             KDUSBManager.shared.sendCommand(command)
         }
 
+        // 建立與 NodeMCU-32S 之間的連線
         KDUSBManager.shared.connect()
     }
     
@@ -70,7 +73,7 @@ final class IOMonitor {
     }
     
     private var isCapsLockOn: Bool = false
-    var textColor: NSColor {
+    private var textColor: NSColor {
         return isCapsLockOn ? .red : .blue
     }
 }

@@ -31,6 +31,7 @@ class KDUSBManager: NSObject {
     }
     private var serialPort: ORSSerialPort?
 
+    /// 建立與 MCU32S 之間的連線
     func connect() {
         guard let portPath = findSerialNodeMCU32S() else {
             serialPort = nil
