@@ -12,8 +12,6 @@
 		82BA621E2A94BA85009C860C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82BA621D2A94BA85009C860C /* Assets.xcassets */; };
 		82BA62212A94BA85009C860C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82BA62202A94BA85009C860C /* Preview Assets.xcassets */; };
 		82BA622C2A94BA85009C860C /* KeyboardMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA622B2A94BA85009C860C /* KeyboardMonitorTests.swift */; };
-		82BA62362A94BA85009C860C /* KeyboardMonitorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA62352A94BA85009C860C /* KeyboardMonitorUITests.swift */; };
-		82BA62382A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA62372A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift */; };
 		82BA62452A94BAA5009C860C /* IOMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA62442A94BAA5009C860C /* IOMonitor.swift */; };
 		82E8D3562A9B084900645E15 /* KDAlertWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E8D3552A9B084900645E15 /* KDAlertWindow.swift */; };
 		82E8D3582A9B179C00645E15 /* KDUSBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E8D3572A9B179C00645E15 /* KDUSBManager.swift */; };
@@ -47,8 +45,6 @@
 		82BA62272A94BA85009C860C /* KeyboardMonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KeyboardMonitorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82BA622B2A94BA85009C860C /* KeyboardMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardMonitorTests.swift; sourceTree = "<group>"; };
 		82BA62312A94BA85009C860C /* KeyboardMonitorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KeyboardMonitorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		82BA62352A94BA85009C860C /* KeyboardMonitorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardMonitorUITests.swift; sourceTree = "<group>"; };
-		82BA62372A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardMonitorUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		82BA62442A94BAA5009C860C /* IOMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOMonitor.swift; sourceTree = "<group>"; };
 		82E8D3552A9B084900645E15 /* KDAlertWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDAlertWindow.swift; sourceTree = "<group>"; };
 		82E8D3572A9B179C00645E15 /* KDUSBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDUSBManager.swift; sourceTree = "<group>"; };
@@ -85,7 +81,6 @@
 			children = (
 				82BA62182A94BA83009C860C /* KeyboardMonitor */,
 				82BA622A2A94BA85009C860C /* KeyboardMonitorTests */,
-				82BA62342A94BA85009C860C /* KeyboardMonitorUITests */,
 				82BA62172A94BA83009C860C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -129,15 +124,6 @@
 				82BA622B2A94BA85009C860C /* KeyboardMonitorTests.swift */,
 			);
 			path = KeyboardMonitorTests;
-			sourceTree = "<group>";
-		};
-		82BA62342A94BA85009C860C /* KeyboardMonitorUITests */ = {
-			isa = PBXGroup;
-			children = (
-				82BA62352A94BA85009C860C /* KeyboardMonitorUITests.swift */,
-				82BA62372A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift */,
-			);
-			path = KeyboardMonitorUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,8 +282,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82BA62382A94BA85009C860C /* KeyboardMonitorUITestsLaunchTests.swift in Sources */,
-				82BA62362A94BA85009C860C /* KeyboardMonitorUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
